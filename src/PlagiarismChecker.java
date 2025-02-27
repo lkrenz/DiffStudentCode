@@ -18,23 +18,20 @@ public class PlagiarismChecker {
      */
     public static int longestSharedSubstring(String doc1, String doc2) {
 
-        int[][] paths = new int[doc1.length()][doc2.length()];
+        int[][] paths = new int[doc1.length() + 1][doc2.length() + 1];
         int lowCol = 0;
         int highest = 0;
+        doc1 = " " + doc1;
+        doc2 = " " + doc2;
 
-        for (int i = 0; i < doc1.length(); i++) {
-            for (int j = lowCol; j < doc2.length(); j++) {
+        for (int i = 1; i < paths.length; i++) {
+            for (int j = 1; j < paths[i].length; j++) {
                 int max = 0;
-                if (i > 0) max = Math.max(max, paths[i-1][j]);
-                if (j > 0) max = Math.max(max, paths[i][j-1]);
-                if (doc1.charAt(i) == doc2.charAt(j)) {
-                    if (j > 0 && i > 0) {
-
-                    }
-                }
-                else paths[i][j] = max;
+                if (doc1.charAt(i) == doc2.charAt(j)) max = paths[i - 1][j-1] + 1;
+                else max = Math.max(paths[i - 1][j], paths[i][j-1]);
+                paths[i][j] = max;
             }
         }
-        return highest;
+        return paths[doc1.length() - 1][doc2.length() - 1];
     }
 }
